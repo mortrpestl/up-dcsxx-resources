@@ -67,9 +67,9 @@ they serve as start or stop signals in the genetic sequence.
 + Prove that the number of DNA strands of length $n$
   equals the number of RNA strands of length $n$.
 
-In this problem we consider a variant of alien DNA called MKNA, where data is encoded by the number of occurences of the base. 
+In this problem we consider a variant of DNA called MKNA, where data is encoded by the number of occurences of the base. An example MKNA of length 10 is ${4: A, 3: C, 2 : G, 1: T}$.
 
-+ How many MKNA are there?
++ How many MKNA of length 10 are there?
 + If at least 1 of each base was required, how many possible MKNA are there?
 
 #pagebreak()
@@ -86,7 +86,7 @@ We will do a bunch of things with the set below:
 
 In a team of $n$ people:
 
-+ How many ways can you create $n$ pairs, if $n$ is even? If $n$ is odd? Each person must belong to only one pair.
++ How many ways can you create $n/2$ pairs, if $n$ is even? If $n$ is odd? Each person must belong to only one pair.
 + Prove that if each pair plays against one another, gaining a post at a win, there exists two teams with the same score. Assume no ties can occur.
 + How many ways are there to create final standings, if ties are allowed? (Hint: express as a recurrence relation)
 
