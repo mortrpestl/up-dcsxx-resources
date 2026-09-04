@@ -60,7 +60,9 @@
 #gb[
   *Proof.*
 
-  Since there are $n!$ such permutations of $[1,2,...,n]$, any algorithm going through  the list of permutations must run in $Theta(1) dot Omega(n^2) = Omega(n^2)$ time. $qed$
+  Since there are $n!$ such permutations of $[1,2,...,n]$, any algorithm enumrating the list of permutations must have some operation that takes $Theta(n!)$ time. Since other parts of the algorithm may run slower than this, the algorithm will have $bigOm(n!)$ time.
+
+  $qed$
 ]
 
 == Linear search 
@@ -88,45 +90,263 @@
 #gb()[ 
   *Proof.* 
 
-  Note that $sans("path_count")$ involves initializing a grid of $n^2$ elements. This places a lower bound of at least $n^2 dot Theta(1)= Omega(n^2)$ time for the algorithm.
+  Note that $sans("path_count")$ involves initializing a grid of $n^2$ elements. This takes $n^2$ operations.
 
-  Then, $sans("path_count")$ calls $sans("count_from")(0,0)$ which runs in $bigO(n^2)$ by Lemma 1.
+  Then, $sans("path_count")$ calls $sans("count_from")(0,0)$ which runs in $bigO(n^2)$ by Lemma 2.
 
-  Now, we claim that
+  Since the time complexity of $sans("path_count") = n^2 + "time complexity of" sans("count_from(0,0)") = n^2 + bigTh(n^2)$, we can conclude that $sans("path_count") = Theta(n^2)$.
 
+  $qed$.
+]
+
+#gb[
   #boxed[
-    *Lemma 1.* The function $sans("count_from")$ runs in $bigO(n^2)$ time.
+    *Lemma 1.* $sans("count_from")(i,j)$ runs in $Theta(1)$ time.
   ]
 
   #boxed(centered: false)[ 
     *Proof.*
 
-    We do structural induction on $i+j$, the sum of the parameters of $sans("count_from")$, by noting that the sum of parameters strictly increases after every step.
+    We want to prove that $sans("count_from")(i,j)$ runs in $Theta(1)$ time.
+    
+    We do this by induction on $i+j$ by noting that the sum of parameters strictly increases after every step.
 
-    _Base case:_ If $(i,j)$ is out of bounds, then the function  returns $0$ in $Theta(1)$. If $(i,j) = (n-1,n-1)$, then it has reached the end destination and thus returns $1$ in $Theta(1)$.
+    _Base case:_ If $(i,j)$ is out of bounds, then the function  returns $0$ in $Theta(1)$. If $(i,j) = (n-1,n-1)$, then it has reached the end destination and thus returns $1$ in $Theta(1)$ time.
 
     _Inductive case:_ Recall that our unmemoized function is
     
     $ sans("count_from")(i,j) = sans("count_from")(i+1,j) + sans("count_from")(i,j+1) + Theta(1) $
 
-    But from our inductive hypothesis, function calls with parameter sum greater than $i+j$ have been already been memoized. In other words, $sans("done")[i][j+1]$ and $sans("done")[i+1][j]$ have already been computed and only have to be looked up in $Theta(1)$. More formally:
+    But from our inductive hypothesis, function calls with parameter sum greater than $i+j$ have been already been memoized. In other words, $sans("memo")[i][j+1]$ and $sans("memo")[i+1][j]$ have already been computed and only have to be looked up in $Theta(1)$. More formally:
 
     $ sans("count_from")(i,j) = Theta(1) + Theta(1) +Theta(1) = 3 dot Theta(1) =Theta(1) $
 
-    Since there are $n^2$ pairs for $(i,j)$, we have at most $n^2 dot Theta(1) = bigO(n^2)$ operations from $sans("count_from")$.
+    This proves the inductive case. 
 
+    $qed$
   ]
-
-  Since $sans("path_count") = bigOm(n^2) + "time complexity of" sans("count_from(0,0)") = bigOm(n^2)+bigO(n^2)$, we can conclude that $sans("path_count") = Theta(n^2)$.
-
-  $qed$.
 ]
 
+#gb[
+  #boxed[*Lemma 2.* 
+  $sans("count_from")(0,0)$ runs in $bigTh(n^2)$ time.
+  ]
+
+  #boxed(centered: false)[
+    Calling $sans("count_from(0,0)")$ explores all pairs $(i,j)$ in the grid. Since are $n dot n =n^2$ pairs for $(i,j)$, we have at most $n^2 dot Theta(1) = Theta(n^2)$ operations from $sans("count_from")(0,0)$.
+
+  ]
+]
 == $z(s)$
 == $sans("lorem_absum")(s)$
 == $sans("foo")(n)$
 == $sans("min_seq(seq)")$
 
+=== Prove that this is correct.
+#gb[
+*Proof.* We will prove the correctness of $sans("_min")$ by induction. We assume that for all inputs $0<i<n$ to $sans("_min")$ less than $n$, it returns the minimum element in the first $i$ elements of the list.
+
+_Base case:_ 
+
+- At $n = 1$, there is only one element $v$ in the sequence, so this is guaranteed to be the minimum.
+- At $n = 0$, the algorithm raises an error. This case should not be reached if the initial function call is $n>=1$ or as long as $sans("seq")$ is not empty.
+
+_Inductive case:_ 
+
+The $sans("if")$ body compares $v=sans("seq")[n-1]$ to $sans("_min")(n-1)$, the minimum element in the first $n-1$ elements by the inductive hypothesis. There are two cases:
+
+- $v < sans("_min")(n-1)$: Since $v$ is smaller than the sequence prefix, it is returned as the minimum for this function call. By definition of $min$, this correctly returns the minimum of the first $n$ elements.
+
+- $v = sans("_min")(n-1)$: Since they are equal, either can be returned. The algorithm returns $v$.
+
+- $v > sans("_min")(n-1)$: Then $sans("_min")(n-1)$ is appropriately called. By definition of $min$, this correctly returns the minimum of the first $n$ elements.
+
+In all cases, the function returns the minimum of the first $n$ elements. This proves the inductive case.
+
+From Lemma 1, $sans("_min")$ is correct. By calling $sans("_min(len(seq))")$, we get the minimum of the first $sans("len(seq)")$ elements of the array, or essentially all of the elements in the array. 
+
+Therefore, $sans("min_seq(seq)")$ is correct.
+
+
+$qed$.
+
+]
+=== Prove that it runs in $Theta(2^n)$
+
+#gb[
+  *Proof.* 
+  We analyze $sans("_min")(n)$:
+  - The first $sans("if")$ statement, along some comparisons in the $sans("if")$ statements below run in $Theta(1)$ time.
+  - The second $sans("if")$ statement and the $sans("else")$ body has a comparison that involves calling $sans("_min")(n-1).$
+
+  We can therefore set up a recurrence:
+
+  $ 
+  sans("_min")(n) &= sans("_min")(n-1) + sans("_min")(n-1) + c dot Theta(1) \
+  &= 2 dot sans("_min")(n-1) + Theta(1)
+  $
+  
+  From Lecture 05, it was shown that this recurrence pattern where $f(n) = sans("_min")(n)$ has a solution $sans("_min")(n) = Theta(2^n)$.
+
+  $sans("min_seq")$ calls $sans("_min")(n)$ once. Thus, it has a time complexity of $1 dot Theta(2^n) = Theta(2^n)$.
+
+  $qed$
+]
+
+#pagebreak()
+=== Optimization
+
+#gb[
+  *Proof.*
+
+  We can compute $sans("_min")(n-1)$ once, set it to a variable $sans("min_pref")$ and replace instances of it in the original algorithm.
+
+  
+
+
+  This turns the recurrence into:
+
+  $ sans("_min")(n) = sans("_min")(n-1) + Theta(1) $
+
+  Let $f(n)=sans("_min")(n)$ for brevity. From Lemma 1, we have proved that $f(n) = Theta(n)$. Therefore, $sans("min_seq")$ now runs in $1 dot Theta(n) = Theta(n)$ time.
+
+  $qed$
+]
+
+#gb[
+  #boxed[
+    *Lemma 1.* 
+
+    The recursive function $ f(n) = f(n-1) + Theta(1)$
+
+    has a solution $f(n) = Theta(n)$.
+  ]
+
+    *Proof.* 
+
+    We remove the abuse notation of $Theta(1)$. From this, we know that there is some $g(n) = Theta(1)$ wherein there exists a $c, n_0$ such that for all $n >= n_0$, $g(n) <= c$. Hence:
+
+    $ f(n) <= f(n-1) + c $
+
+    For $n <= n_0$, since these are finite $n$, they are bounded by some constants. Let's denote the maximum of these constants by $c'$.
+
+    
+
+  
+  By Lemma 2, $f(n) <= C dot n + c <= C dot n$, hence$f(n) = bigO(n)$ (with constants $C$, $n_0$).
+
+  We can also remove the abuse notation of $Theta(1)$ in another way, since we also know that there is some $g(n) = Theta(1)$ wherein there exists a $c, n_0$ such that for all $n >= n_0$, $c <= g(n)$. Hence:
+
+    $ f(n-1) - c <= f(n) $
+
+    For $n <= n_0$, since these are finite $n$, they are bounded by some constants. Let's denote the _sum_ of these constants by $c'$.
+
+    By Lemma 3, $C dot n<=C dot n + c <= f(n)$, hence $f(n)=bigOm(n)$ (with constants $C, n_0$).
+
+    Because $f(n) = bigOm(n)$ and $f(n) = bigO(n)$, it follows that $f(n) = bigTh(n)$ $qed$
+]
+
+#gb[
+  
+  #boxed[
+    *Lemma 2.*
+
+    $f(n) <= C dot n - c$, where $C = sans("max")(c,c') + c$
+  ]
+
+  *Proof.*
+  We prove by induction.
+
+    _Base case:_
+
+    For $n < n_0$:
+
+    $ f(n) &<= c' \ 
+    f(n) &<=C-c<=C dot n -c
+    $
+
+    _Inductive case:_
+
+    For $n >= n_0$, we know $f(n) = C dot (n-1) + c$ by the inductive hypothesis. Then:
+
+    $
+    f(n) &<=  f(n-1) + c \
+    &<= C dot (n-1) -c + c \
+    &= C dot n-C \
+    &= C dot n - c + c \
+    &= C dot n - c
+    $
+
+    This proves our inductive case.
+
+    $qed$
+]
+
+#gb[
+  
+  #boxed[
+    *Lemma 3.*
+
+    $C dot n + c <= f(n)$, where $C = (max(c,c') - c) / n_0$
+  ]
+
+  *Prove.*
+
+  We prove by induction.
+
+    _Base case:_
+
+    For $n < n_0$:
+
+    $ C dot n + c <= C dot n + n_0 + c <= C dot n_0 + n_0 dot c <= c' &<= f(n)  \ 
+    $
+
+    _Inductive case:_
+
+    For $n >= n_0$, we know $f(n) = C dot (n-1) + c$ by the inductive hypothesis. Then:
+
+    $
+     C dot n +c&<= C dot n- C - 2c &<= C dot (n-1) - c - c <=f(n-1) - c &<= f(n) \
+    $
+
+    This proves our inductive case.
+
+    $qed$
+
+]
+
+
+#pagebreak()
 
 == Recursive madness or some shi
+
+#gb[
+  We claim that $r = 8$ works. That is, we will prove that $f(n)=Theta(8^n)$.
+
+  *Proof.*
+
+  Note that for $n >= 33$, 
+
+  $ ceil( 7 + 11/n)&= 8 \
+  floor( 32/n )&= 0 $
+
+  Hence we can simplify our recursive function to
+  $
+  f(n) &= 8 f(n-1) - 1
+  $
+
+  We can show that $f(n) = C dot 8^n + 1/7$ is a solution. We set $C > 0$ to maintain positivity for later:
+
+  $ C dot 8^n + 1/7 &= 8 dot (C dot 8^(n-1)+1/7)-1 \
+  &= C dot 8^n + 8/7 -1 \ 
+  &= C dot 8^n + 1/7 $
+
+  Also, note that for $n > 33$, the following also apply:
+
+  $ C dot 8^n <= C dot 8^n + 1/7 <= 2C dot 8^n $
+
+  Hence, $f(n) = bigTh(8^n)$ (with constants $C, 2C,$ and $33$).
+
+  $qed$.
+]
 
