@@ -226,7 +226,7 @@ Formally _prove or disprove_ each of the following:
 
   Define $n_0 := max(n_1, n_2)$. Then for all $n$, $n >= n_0$, after multiplying the inequalities:
 
-  $ 0 < c_1 (c_2 h(n)) = (c_1 c_2) h(n) <= f(n) $
+  $ 0 < c_1 g(n) <= c_1 (c_2 h(n)) = (c_1 c_2) h(n) <= f(n) $
 
   Therefore, by definition, $f(n) = bigOm(h(n))$  (with constants $ c_1c_2, n_0)$.
   
@@ -453,14 +453,42 @@ $qed$
 ]
 
 === $f(n) g(n) = cal(O)(f(n)^2 + g(n)^2)$.
+
 #gb()[
   *Proof.* 
 
-  We want to prove that there exists some $c, n_0$ such that for all $n >= n_0$:
+  We want to prove by definition of $bigO$.
 
-  $ f(n)g(n) <= c (f(n)^2 + g(n)^2) $
+  Let $c := 1/2$ and $n_0 := 1$.
 
-  Let $c := 1/2$ and $n_0 := 1$. Then $f(n) g(n) = cal(O)(f(n)^2 + g(n)^2)$.
+  Then: 
+
+  $ 
+  f(n) g(n) &<= 1/2 (f(n)^2 + g(n)^2) \
+  2 f(n) g(n) &<= f(n)^2 + g(n)^2 \
+  f(n)^2 + g(n)^2 &>= 2 f(n) g(n) \
+  f(n)^2 - 2 f(n)g(n) + g(n)^2 &>= 0 \
+  (f(n) - g(n))^2 &>= 0
+  $
+
+  which is true by the trivial inequality.
+
+  Hence, $ f(n)g(n) <= 1/2 f(n)g(n) =c dot f(n)g(n) $.
+
+  Therefore, by definition of $bigO$, $f(n)g(n) = bigO(f(n)^2 + g(n)^2)$.
+
+$qed$
+]
+
+#gb()[
+  *Old Proof 1.* 
+
+  We want to prove by definition of $bigO$.
+
+  Let $c := 1/2$ and $n_0 := 1$. Then
+  
+  
+   $f(n) g(n) = cal(O)(f(n)^2 + g(n)^2)$.
 
   This constant was obtained using the trivial inequality:
 
@@ -474,8 +502,6 @@ $qed$
   $
 
 $qed$
-
-  
 ]
 
 === $f(n) g(n) = cal(Omega)(f(n)^2 + g(n)^2)$.
