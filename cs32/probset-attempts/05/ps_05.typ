@@ -21,7 +21,7 @@
 
 #set align(horizon)
 #align(center)[
-  = Template
+  = CS 32 Probset 5
   *Diogn Lei R. Mortera*
 ]
 
@@ -60,7 +60,7 @@
 #gb[
   *Proof.*
 
-  Since there are $n!$ such permutations of $[1,2,...,n]$, any algorithm enumrating the list of permutations must have some operation that takes $Theta(n!)$ time. Since other parts of the algorithm may run slower than this, the algorithm will have $bigOm(n!)$ time.
+  Since there are $n!$ such permutations of $[1,2,...,n]$, any algorithm enumerating the list of permutations must have at least $n^2$ steps. Hence, the algorithm runs in $bigOm(n!)$ time.
 
   $qed$
 ]
@@ -70,17 +70,18 @@
 #gb[
   *Proof.*
 
-  Note that in linear search, the worst case scenario scenario is when the element is not in the list. Here, it iterates through the $n$ elements and returns $-1$.
-  
-
   Note that comparison and return takes $Theta(1)$. 
 
-  Hence, the worst case scenario runs in  $ n dot Theta(1) + Theta(1) = Theta(n)+Theta(1)=Theta(n) $ time.
-
-  From this, we can also state that linear search is $bigO(n)$ and $bigOm(n)$.
-
-  The most appropriate statement is that "the worst-case complexity is $Theta(n)$". The other two only give upper and lower bounds respectively. Meanwhile, $Theta$ gives you a smaller range of functions, allowing for better analysis, especially when combined with other operations.
+  Note that in linear search, there are two scenarios:
   
+  - Element is on the list. Then it compares a value to most $n$ numbers in the list. Hence, this branch takes $bigO(n)$ time.
+
+  - Element is _not_ on the list. Here, it iterates through the $n$ elements and returns $-1$. It runs in at least $n$ times. Here this branch runs at least $n$ times, implying it runs at $bigOm(n)$ time.
+
+  Since linear search runs in both $Omega(n)$ and $bigO(n)$, it then runs in $Theta(n)$ time.
+
+  The strongest result is at $Theta(n)$, because it implies both $bigOm(n)$ and $bigO(n)$. Meanwhile, $Theta(n)$ alone or $bigOm(n)$ alone does not imply $Theta(n)$.
+
   $qed$
 ]
 
@@ -139,7 +140,50 @@
 ]
 == $z(s)$
 == $sans("lorem_absum")(s)$
+
+#gb[ 
+  *Proof.* 
+
+  The total number of operations is:
+
+  $ sum_(i=0)^n sum_(j=0 \ 2(i+j) < n)^n (|i+j| - |i-j|) $ 
+]
 == $sans("foo")(n)$
+
+#gb[ 
+  *Proof.* We claim that $sans("foo")(n)$ runs in $Theta(n^3)$ time. 
+
+  Note that the outer loop runs at most $n$ times. Either it does or it does not.
+  
+  For the cases $i$ it does, it runs an inner loop $i^2$ times.
+
+  We can get the total number of operations using indirect counting. We remove the instances when the loop did not run:
+
+  $ sum_(i=1)^n i^2 - sum_(i=1)^floor(n/d) (d i)^2 = (n(n+1)(2n+1))/6 -  (d^2(floor(n/d))(floor(n/d) + 1)(2 floor(n/d) + 1))/6 $
+
+  Note that $floor(n/d)$ is bounded by a constant $32$:
+
+  $ 
+  floor(n/ (floor(n/32)+1) ) &<= floor( n / (n/32 + 1)) \
+  &<= floor(n / (n/32))= floor(32) = 32
+  $
+
+  Hence we can let $p = (floor(n/d))(floor(n/d) + 1)(2 floor(n/d) + 1)$ as a constant.
+
+  Meanwhile, for $n > 64$:
+
+  $ n/64 <= floor(n/32) + 1 = d&<= n/32 +1 <= 3n \
+   2n+1 &<= 3n $
+
+  Then we have:
+
+  $ 1/64^3 n^3 <= (n(n+1)(2n+1)-d^2 p)/6 <=  1/2 n^3 $
+  
+  By definition, $sans("foo")(n) = Theta(n^3)$ (with constants $1/64$, $4/3$, and $65$).
+
+
+]
+
 == $sans("min_seq(seq)")$
 
 === Prove that this is correct.
@@ -323,7 +367,87 @@ $qed$.
 #gb[
   We claim that $r = 8$ works. That is, we will prove that $f(n)=Theta(8^n)$.
 
+  *Proof.* 
+
+  Note that for $n >= 33$, 
+
+  $ ceil( 7 + 11/n)&= 8 \
+  floor( 32/n )&= 0 $
+
+  Hence the recurrence simplifies to
+  $
+  f(n) &= 8 f(n-1) - 1
+  $
+
+  From Lemma 1 and Lemma 2, we know that given $n_0:=33$, for all $n >= n_0$:
+
+  $ c_1 8^n <= c_1 8^n + 1/7 <= f(n) <= c_2 8^n $
+
+  Therefore, $f(n) = Theta(8^n)$ (with constants $c_1, c_2$ and $n_0$).
+
+  $qed$  
+] 
+
+#gb[ 
+  #boxed[
+    
+    *Lemma 1.* 
+    
+    $c_1 8^n + 1/7 <= f(n) $ for all $n >= 33$ and $c_1 := (f(33) - 1/7) / 8^33$
+  ]
+
   *Proof.*
+
+  _Base case._ At $n=33$:
+
+  $ c_1 8^33 + 1/7 &<= f(33) \ 
+  (f(33)- 1/7)/8^33 dot 8^33 + 1/7 &<= f(33) \
+  f(33) - 1/7 + 1/7 &<= f(33) \
+  f(33) &<= f(33)
+  $
+
+  which is true, proving our base case. 
+
+  _Inductive case._ For $n>33$:
+
+  $  c_1 8^n + 1/7 = 8 (c_1 8^(n-1) + 1/7) - 1<= 8f(n-1) - 1 = f(n) $
+
+  This proves our inductive case.
+
+  $qed$.
+]
+
+#gb[
+#boxed[
+    
+    *Lemma 2.* 
+    
+    $f(n) <= c_2 8^n $ for all $n >= 33$ and $c_2 := f(33) / 8^33$
+
+  ]
+    *Proof.*
+
+    _Base case._ At $n=33$:
+
+    $ f(33) &<= c_2 8^33 \ 
+    &= f(33) / 8^33 dot 8^33 \ 
+    &= f(33) 
+    $
+
+    which is true, proving our base case. 
+
+    _Inductive case._ For $n>33$:
+
+    $  f(n) = 8 dot f(n-1)-1 <= 8 (c_2 8^(n-1) )-1 = c_2 8^n - 1<= c_2 8^n $
+
+    This proves our inductive case.
+    
+    $qed$.
+]
+
+
+#gb[
+  *Old Proof.*
 
   Note that for $n >= 33$, 
 
@@ -341,7 +465,7 @@ $qed$.
   &= C dot 8^n + 8/7 -1 \ 
   &= C dot 8^n + 1/7 $
 
-  Also, note that for $n > 33$, the following also apply:
+  Also, note that for $n >= 33$, the following also apply:
 
   $ C dot 8^n <= C dot 8^n + 1/7 <= 2C dot 8^n $
 
