@@ -374,7 +374,7 @@ $qed$.
   $ ceil( 7 + 11/n)&= 8 \
   floor( 32/n )&= 0 $
 
-  Hence the recurrence simplifies to
+  Hence the recurrence for $n >= 33$ simplifies to
   $
   f(n) &= 8 f(n-1) - 1
   $
