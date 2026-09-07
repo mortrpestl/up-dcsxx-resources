@@ -44,7 +44,7 @@
 #gb[
 *Proof.*
 
-This statement is true. 
+This statement is true.
 
 Let $c:= 1/10$ and $n _0 := 1$. Then:
 
@@ -71,36 +71,129 @@ $qed$
 
     $c_1 := 1$ works from the following inequality: $ floor(n/7) <= 1 dot n/7 $
 
-    $c_2 := 1/2$ works because $n/14 >= 1$ at $n >= 14$. Hence, 
-    
+    $c_2 := 1/2$ works because $n/14 >= 1$ at $n >= 14$. Hence,
+
     $ 1/2 dot n/7 =n/7 - 1/2 dot n/7<= n/7 - 1 <=floor(n/7) $
 
     Then, by definition, $floor(n/7) = bigTh(n)$ (with constants $c_1$, $c_2$, and $n_0$).
-    
+
     $qed$
 ]
 
 #pagebreak()
 == Find the smallest nonnegative real $r$ such that $n^(32 + sin (pi n) / 32) = cal(O) (n^r)$ (and prove it)!
 
+
 #gb()[
-  Recall that for all varying $m$, 
-  
-  $ -1 &<= sin (pi n) / 32 <= 1 \
-  31 &<= 32 + sin (pi n) / 32 <= 33
-  $
+  We claim that $r = 33$.
 
-  Hence, setting $m = (pi n) / 32 $ results in 
-  
-  $ 32 + sin (pi n) / 32 <= 33 $
+  *Proof.*  We prove this by showing that $n^(32 + sin (pi n)/32 ) = cal(O)(n^33)$ and $n^(32+sin((pi n)/32)) != O(n^r)$ for all $r < 33$.
 
+  We now prove the first statement. Choose $c := 1$ and $n_0 := 2$. Then for all $n>= n_0$, using the fact
+  $sin (pi n) / 32 <= 1 ==>32 + sin (pi n) / 32 <= 33 $
+
+  We can get:
   $ n^(32 + sin (pi n) / 32) <= n^33 = 1 dot n^33 $
 
-  Since we want our functions to be increasing, we require $n_0 > 1$. One such $n_0$ is $2$.
+  which shows that $n^(32 + sin (pi n) / 32) = bigO(n^33)$ (with constants $c, n_0$).
+
+  We will prove the second statement using contradiction. Suppose $n^(32 + sin ((pi n)/32)) = bigO(n^r)$ for $r < 33$. From the definition of $bigO$, there exists $c,n_0$ such that for $n >= n_0$:
+
+  $ n^(32 + sin ((pi n)/32)) <= c dot n^r $
+
+  Note that $n^(32 + sin ((pi n)/32)) =n^33$ for infinitely many values $n>=n_0$ (all $n = 16 + 64k$ where $k$ is an positive integer). We therefore have an equality for infinitely many $n$:
+
+  $ n^(32 + sin ((pi n)/32)) = n^33 $
+
+  Hence, we have:
+
+  $ n^33 <= c dot n^r $
+
+  which implies $n^33 = O(n^r)$. But $r < 33$, which is a contradiction.
 
 
-  By definition of $cal(O)$, $n^(32 + sin (pi n)/32 ) = cal(O)(n^33)$ 
-  (with constants $1$, $2$). Any $r >= 33$ can satisfy this by definition of $cal(O)$, but $r = 33$ is the smallest. $qed$
+
+  $qed$
+]
+
+
+#gb()[
+  We claim that $r = 33$.
+
+  *Old Proof 4.*  We prove this by showing that $n^(32 + sin (pi n)/32 ) = cal(O)(n^33)$ and $n^(32+sin((pi n)/32)) != O(n^r)$ for all $r < 33$.
+
+  We now prove the first statement. Choose $c := 1$ and $n_0 := 2$. Then for all $n>= n_0$, using the fact
+  $ -1 &<= sin (pi n) / 32 <= 1 ==> 31 &<= 32 + sin (pi n) / 32 <= 33 $
+
+  We can get:
+  $ n^(32 + sin (pi n) / 32) <= n^33 = 1 dot n^33 $
+
+  which shows that $n^(32 + sin (pi n) / 32) = bigO(n^33)$ (with constants $c, n_0$).
+
+  We will prove the second statement using contradiction. Suppose $n^(32 + sin ((pi n)/32)) = O(n^r)$. This assumes:
+
+  $ n^(32 + sin ((pi n)/32)) <= n^r $
+
+  Note that $n^(32 + sin ((pi n)/32)) =n^33$ for infinitely many values $n>=n_0$. We therefore have another inequality for infinitely many $n$:
+
+  $ n^(32 + sin ((pi n)/32)) = n^33 $
+
+  which contradicts with our first inequality.
+
+
+
+  $qed$
+]
+
+#gb()[
+  We claim that $r = 33$.
+
+  *Old Proof 3.*  We prove this by showing that $n^(32 + sin (pi n)/32 ) = cal(O)(n^33)$ and $n^(32+sin((pi n)/32)) != O(n^r)$ for all $r < 33$.
+
+  Choose $c := 1$ and $n_0 := 2$. Then for all $n>= n_0$, using the fact
+  $ -1 &<= sin (pi n) / 32 <= 1 ==> 31 &<= 32 + sin (pi n) / 32 <= 33 $
+
+  We can get:
+  $ n^(32 + sin (pi n) / 32) <= n^33 = 1 dot n^33 $
+
+  which shows that $n^(32 + sin (pi n) / 32) = bigO(n^33)$ (with constants $c, n_0$).
+
+  Now suppose $n^(32+sin((pi n)/32)) = O(n^r)$. Then there would exist a $c_1$ and $n_0$ such that for all $n>=n_0$:
+
+  $ n^(32+sin((pi n) / 32)) <= n^33 $
+
+  But by definition, we also know:
+
+  $ n^r <= n^33 $
+
+  But that last inequality implies that some nonconstant $n^(33-r)<= c$ where $33-r > 0$ which is a contradiction.
+
+  Therefore, $n^(32+sin((pi n)/32)) != O(n^r)$.
+
+
+  $qed$
+]
+
+#gb()[
+  We claim that $r = 33$.
+
+  *Old Proof 2.*  We prove this by showing that $n^(32 + sin (pi n)/32 ) = cal(O)(n^33)$ and $n^(32+sin((pi n)/32)) = omega(n^r)$ for all $r < 33$.
+
+  Choose $c := 1$ and $n_0 := 2$. Then for all $n>= n_0$, using the fact
+  $ -1 &<= sin (pi n) / 32 <= 1 ==> 31 &<= 32 + sin (pi n) / 32 <= 33 $
+
+  We can get:
+  $ n^(32 + sin (pi n) / 32) <= n^33 = 1 dot n^33 $
+
+  which shows that $n^(32 + sin (pi n) / 32) = bigO(n^33)$ (with constants $c, n_0$).
+
+  Also, for $r < 33$, note that:
+  $ lim_(n->oo) n^(32+sin (pi n)/32) / n^r = lim_(n->oo) n^(32 + sin((pi n)/32)-r) = oo $
+
+  because $r < 33$ and $32 + sin((pi n)/32) <= 33$ _infinitely many times_ as $n$ grows due to periodicity of $sin((pi n)/32)$, we can say $32+sin(pi/32)-r > 0$ infinitely many times as $n$ grows without bound. This implies $n^(32+sin((pi n)/32)) = omega(n^r)$ for all $r < 33$.
+
+
+  $qed$
 ]
 
 #gb()[
@@ -128,7 +221,26 @@ $qed$
 
 == _Prove or Disprove_: $2^(2^(n+1)) = Omega(2^2^n)$
 
-== Prove that $2^n n^32 = cal(O)(3^n / n^32 )$
+== Prove that $2^n n^32 = cal(O)(3^n / n^32)$
+
+#gb[
+*Proof.* 
+
+We know that:
+
+$ lim_(n -> oo) (3/2)^n / n^64 = oo $
+
+Hence, for every $c>0$, there exists an $n_0$ where for all $n >= n_0$, $(3/2)^n / n^64 >= c$. For our purposes, let's pick a $c_0>0$ as $c$.
+
+Multiply both sides by $2^n n^32$:
+
+$ 3^n / n^32 &>= c dot 2^n n^32 \
+c dot 2^n n^32 &<= 3^n / n^32 \ 
+2^n n^32 &<= 1/c dot 3^n / n^32
+$
+
+Then, by definition, $2^n n^32 = bigO(3^n/n^32)$ (with constants $1/c ,n_0$)
+]
 
 #pagebreak()
 
@@ -161,11 +273,11 @@ $qed$
   &= n [log (n) + [log (log (n) + log (log n)))]] \
   &<= n [log (n) + [log (log (n) + log n))]] \
   &= n [log (n) + log (n)] \
-  &= 2 dot n log (n) 
+  &= 2 dot n log (n)
   $
   Hence, by definition, $n log (n log (n log n)) = Theta(n log n)$. $qed$
 
-  
+
 ]
 
 #pagebreak()
@@ -175,20 +287,22 @@ $qed$
 #gb()[
   *Proof*:
 
-  Let $c_1 = 1/8$, $c_2 = 1$, and $n_0 = 4$. For all $n >= n_0$, note that
+  Let $c_1 = 1/8$, $c_2 = 1$, and $n_0 = 4$. For all $n >= n_0$, we can show that
 
   $ 0 < 1/8 dot n log n <= log n! <= 1 dot n log n $
 
-  The choice of $c_1$ comes from:
+  which allows us to conclude $log n! = Theta(n log n)$ (witth constants $c_1, c_2,$ and $n_0$).
+
+We can show that:
 
   $ (n/2-1) log n/2<=floor(n/2) log ceil(n/2) <= log (product _(i = ceil(n/2))^n ceil(n/2) ) <= log (product _(i = ceil(n/2))^n i ) <= log n! $
 
   Note that for $n >= 4$:
 
-  $ n/4 &<= n/2-1 \ 
+  $ n/4 &<= n/2-1 \
   1/2 log n &<= log n/2 $
 
-  Hence: 
+  Hence:
 
   $ 1/8 n log n <= (n/2 - 1) log n/2 $
 
@@ -196,7 +310,7 @@ $qed$
 
   $ log n! = sum_(i=1)^n log i <= sum_(i=1)^n log n = n log n = 1 dot n log n $
 
-  Thus, by definition, $log n! = Theta(n log n)$ $qed$
+ $qed$
 ]
 
 #pagebreak()
@@ -229,28 +343,45 @@ Formally _prove or disprove_ each of the following:
   $ 0 < c_1 g(n) <= c_1 (c_2 h(n)) = (c_1 c_2) h(n) <= f(n) $
 
   Therefore, by definition, $f(n) = bigOm(h(n))$  (with constants $ c_1c_2, n_0)$.
-  
+
   $qed$
 ]
+
+#pagebreak()
 
 === If $f(n) = cal(O)(g(n))$, then $f(n) + g(n) = cal(Theta)(g(n))$.
 
 #gb()[
   *Proof:*
 
+
+
+  By definition of $bigOm$, since $f(n) = bigO(g(n))$, there exists $c_3$ and $n_1$ such that for all $n >= n_1$:
+
+  $ 0 < f(n) <= c_3 g(n) $
+
+  By adding $g(n)$ to all parts of the inequality, we get:
+
+  $ 1 dot g(n) < f(n) + g(n) <= c_3 g(n) + g(n) = (c_3 +1 ) g(n) $
+
+  which allows us to conclude that $f(n)+g(n) = Theta(g(n))$ (with constants $1, c_3 +1, n_1$)
+
+  $qed$
+]
+
+#gb()[
+  *Old Proof:*
+
   We want to show that there exists $c_1$, $c_2$ and $n_0$ such that for all $n >= n_0$:
 
   $ 0 < c_1 g(n) <= f(n)<= c_2 g(n) $
 
-
-
-  
   By definition of $bigOm$, since $f(n) = bigO(g(n))$, there exists $c_3$ and $n_1$ such that for all $n >= n_1$:
 
   $ 0 < f(n) <= c_3 g(n) $
 
   Let $c_1 := 1$, $c_2 := c_3 + 1$, and $n_0 := n_1$.
-  
+
   By adding $g(n)$ to all parts of the inequality, we get:
 
   $ 1 dot g(n) < f(n) + g(n) <= c_3 g(n) + g(n) = (c_3 +1 ) g(n) $
@@ -263,9 +394,90 @@ Formally _prove or disprove_ each of the following:
 
 === $f(n) = o(g(n))$ if and only if $cal(O)(f(n)) subset.neq cal(O)(g(n))$.
 
+#pagebreak()
+
 #gb()[
   *Proof.*
-  
+  This statement is false.
+
+  Let $
+  f(n) &= cases(
+  n & "if " n " is even",
+  1 & "if " n " is odd"
+  ) \
+  g(n) &= n $
+
+  We want to prove that $bigO(f(n)) subset.eq bigO(g(n)), bigO(f(n)) != bigO(g(n)), $ but $f(n) != o(g(n))$.
+
+
+  *$bigO(f(n)) subset.eq bigO(g(n))$*
+
+  Let $h in bigO(f(n))$. Then there exists $c := 1, n_0$ such that for all $n>=n_0$:
+
+  $ h(n) <= n = 1 dot g(n) $
+
+  Since $h(n)$ was chosen arbitarily, then $bigO(f(n)) subset.eq bigO(g(n))$.
+
+
+  *$bigO(f(n)) != bigO(g(n))$*
+
+  Suppose $bigO(f(n)) = bigO(g(n))$. That is, since $bigO(g(n)) subset.eq bigO(f(n))$. Let $h in bigO(f(n))$. Note that for odd $n$:
+
+  $ h(n) <= c g(n) =c dot 1 =c $
+
+  But $h(n)$ is an unbounded variable, hence this is a contradiction. Since $h$ was arbitrary, $bigO(f(n)) subset.neq bigO(g(n))$ implying $bigO(f(n)) != bigO(g(n))$.
+
+  *$f(n) != o(g(n))$*
+
+  That is,
+
+  $ lim_(n->oo) f(n)/g(n) = n/n = 1!= 0 $
+
+  for even $n$.
+  $qed$
+]
+
+#gb()[
+
+  *Old Proof 2.*
+
+  This statement is true.
+
+  $(==>)$
+
+  Assume $f$ and $g$ are functions such that $f(n) = o(g(n))$. We want to show that $O(f(n)) subset.eq O(g(n))$ and $O(f(n)) != O(g(n))$ by contradiction.
+
+  Suppose that $O(f(n)) = O(g(n))$. Since trivially, $g(n)=O(g(n))$, it follows that $g(n) =O(f(n))$ due to equality. By definition, this means there is some $c>0$ and $n_0$ such that for all $n >= n_0$:
+
+  $
+  g(n) &<= c f(n) \
+  f(n)/g(n) &>= 1/c
+  $
+
+  It follows from here that $lim_(n->oo) f(n)/g(n)>=1/c>0$, implying that $f(n)!=o(g(n))$. We have reached a contradiction.
+
+
+  $(<==)$
+
+  Assume $f$ and $g$ are functions such that $O(f(n)) subset.eq O(g(n))$ and $O(f(n)) != O(g(n))$. We want to show that $f(n) = o(g(n))$ by contradiction.
+
+  Suppose $f(n) != o(g(n))$. Then there exists a constant $c$ such that for all $n>=n_1$:
+
+  $ f(n)/g(n) >= c
+  <==> f(n) >= c dot g(n)
+  <==> g(n) <= 1/c f(n) $
+
+  implying $g(n) = O(f(n))$ (for constants $1/c, n_1$). Therefore, $O(g(n)) subset.eq O(f(n))$. Together with Therefore, $O(f(n)) subset.eq O(g(n))$, this implies $O(f(n))=O(g(n))$ which is a contradiction.
+
+
+
+
+  $qed$
+]
+
+#gb()[
+  *Old Proof.*
+
   ($==>$)
 
   We know that for all $c$, there exists an $n_0$ such that for all $n>= n_0$:
@@ -286,44 +498,124 @@ Formally _prove or disprove_ each of the following:
 
   We know that $bigO (f(n)) subset.neq bigO(g(n)) $. We want to show $f(n) = o(g(n))$ by contradiction.
 
-  Suppose that $f_2(n) >= c g(n)$. 
-  
-  Rearranging:$ 1/c g(n) <= f_2(n) $ implying $f_2(n) in bigO(g(n))$. 
-  
-  Since $f_2(n)$ was arbitrary, we have $bigO (f(n)) subset.eq bigO(g(n)) $. 
-  
+  Suppose that $f_2(n) >= c g(n)$.
+
+  Rearranging:$ 1/c g(n) <= f_2(n) $ implying $f_2(n) in bigO(g(n))$.
+
+  Since $f_2(n)$ was arbitrary, we have $bigO (f(n)) subset.eq bigO(g(n)) $.
+
   This is a contradiction, which means $c dot g(n) < f(n)$ or $g(n) = o(f(n))$ as desired.
 
   $qed$
 ]
 
+#pagebreak()
+
 === If $f(n) = cal(Theta)(g(n))$, then the set $cal(Omega)(f(n))$ is equal to the set $cal(Omega)(g(n))$.
+
+#gb[
+*Proof.* This statement is true. 
+
+We want to prove $Omega(f(n)) subset.eq Omega(g(n))$ and $Omega(g(n)) subset.eq Omega(f(n))$.
+
+*$Omega(f(n)) subset.eq Omega(g(n))$* 
+
+Let some arbitrary function $h in Omega(f(n))$. By transitivity of $Omega$ and $f(n) = Omega(g(n))$, $h in Omega(f(n))$. Since $h$ was arbitrary, we can say $Omega(f(n)) subset.eq Omega(g(n))$.
+
+
+*$Omega(g(n)) subset.eq Omega(f(n))$*
+
+Let some arbitrary function $h in Omega(g(n))$. By transitivity of $Omega$ and $f(n) = Omega(g(n))$ (from $g(n) = Theta(f(n)) ==> f(n)=O(g(n))==> g(n) =bigOm(f(n))$.
+
+Hence, $h in Omega(f(n))$. Since $h$ was arbitrary, we can say $Omega(f(n)) 
+subset.eq Omega(g(n))$.
+
+Since $Omega(f(n)) subset.eq Omega(g(n))$ and $Omega(g(n)) subset.eq Omega(f(n))$, then $Omega(f(n)) = Omega(g(n))$.
+
+$qed$
+]
+
 === At least one of the following is true: $f(n) = cal(O)(g(n))$ or $f(n) = cal(Omega)(g(n))$.
+
+#gb[ 
+*Proof.*
+False.
+
+Let 
+$ 
+f(n) &= cases(1 & "if" n "is odd", n^2 & "if" n "is even") \
+g(n) &= n 
+$
+
+*$f(n) != bigO(g(n))$*
+
+We prove by the sake of contradiction. Suppose that $f(n) = bigO(g(n))$. Then there exists $c$ and $n_0$ such that $n >= n_0$:
+
+$ f(n) <= c n $
+
+But for even $n$, we have $n^2 <= c n$ which is false.
+
+
+*$f(n) != bigOm(g(n))$*
+
+
+We prove by the sake of contradiction. Suppose that $f(n) = bigOm(g(n))$. Then there exists $c$ and $n_0$ such that $n >= n_0$:
+
+$ c n <= f(n) $
+
+But for odd $n$, we have $c n <= 1$ which is false.
+
+Therefore, neither $f(n) = cal(O)(g(n))$ or $f(n) = cal(Omega)(g(n))$ is true.
+
+$qed$
+
+]
+
 === $f(n) + g(n) = cal(Theta)(max(f(n), g(n)))$.
 
 #gb()[
-  *Proof.* 
-  
-  We want to show that there exists a $c_1, c_2,$ and $n_0$ such that for all $n >= n_0$:
-  
-  $ c_1 max(f(n),g(n) ) <= f(n) + g(n) <= c_2 max(f(n),g(n) ) $
-  
+  *Proof.*
+  Let $c_1 := 1$ and $c_2 := 2$. We will show that there exists some $n_0$ such that $n >= n_0$.
 
- 
+    $ c_1 max(f(n),g(n) ) <= f(n) + g(n) <= c_2 max(f(n),g(n) ) $
+
+  to conclude $Theta(max(f(n),g(n)))$ (with constants $c_1, c_2, n_0$).
+
+  Note that $f(n) <= max(f(n),g(n))$ and $g(n) <= max(f(n),g(n))$
+
+  Hence:
+
+  $ f(n)+g(n) <= 2 max(f(n),g(n)) = c_2 dot max(f(n),g(n)) $
+
+  Also, note that
+
+  $ c_1 dot max(f(n),g(n)) =1 dot max(f(n),g(n)) <= f(n) + g(n) $
+
+  $qed$.
+]
+#gb()[
+  *Old Proof.*
+
+  We want to show that there exists a $c_1, c_2,$ and $n_0$ such that for all $n >= n_0$:
+
+  $ c_1 max(f(n),g(n) ) <= f(n) + g(n) <= c_2 max(f(n),g(n) ) $
+
+
+
   Setting $c_1 =1$ and $c_2=2$, we have:
-  
+
   $ 1 dot max(f(n),g(n) ) <= f(n) + g(n) <= 2 dot max(f(n),g(n) ) $
 
- 
+
   The value of $c_1$ is trivial.
-  
-  
+
+
   The value of $c_2$ is derived from definition of:
-  
-  $ 
+
+  $
   f(n) &<= max(f(n), g(n)) \
   g(n) &<= max(f(n), g(n)) \
-  f(n) + g(n) &<= 2 dot max(f(n), g(n)) 
+  f(n) + g(n) &<= 2 dot max(f(n), g(n))
   $
 
   $qed$.
@@ -332,23 +624,23 @@ Formally _prove or disprove_ each of the following:
 === $2^(f(n)+g(n)) = cal(Theta)(2^(max(f(n),g(n))))$.
 
 #gb()[
-  *Proof.* 
+  *Proof.*
 
   False. Let $f(n)=n$ and $g(n)=2n$.
 
-  Then 
+  Then
   $ 2^(f(n)+g(n)) = 2^(3n) = 8^n $
   $ 2^(max(f(n),g(n))) = 2^(2n) = 4^n $
 
-  Clearly, $8^n != Theta (4^n)$. 
+  Clearly, $8^n != Theta (4^n)$.
 
   $qed$.
 
 ]
-=== $cal(O)(f(n)) subset.neq cal(O)(n f(n))$. 
+=== $cal(O)(f(n)) subset.neq cal(O)(n f(n))$.
 
 #gb()[
-*Proof.*  
+*Proof.*
 
 We want to prove that for some $g$, if $g(n) = bigO (f(n))$,  then it is also in $bigO (n f(n))$.
 
@@ -368,11 +660,11 @@ $qed$
 === $cal(O)(f(n)) subset.eq cal(O)(f(n) g(n))$.
 
 #gb()[
-*Proof.*  
+*Proof.*
 
-Let $f(n) = n$ and $g(n) = 1$.
+False. Let $f(n) = n$ and $g(n) = 1/n$.
 
-Then $bigO (n) = bigO( n )$, which is a contradiction. 
+Then some $h(n)=n$ belongs in $bigO(n)$ but not in $bigO(f(n)g(n)) = bigO(1)$. We have found a contradiction.
 
 $qed$
 ]
@@ -380,42 +672,153 @@ $qed$
 === If $f(n) <= g(n) + c$ for all positive integers $n$, then $f(n) = cal(O)(g(n))$.
 
 #gb()[
-
   *Proof.*
-  
+  False. $f(n):=2$, Let $g(n) := 1/n$, $c:=1$, $n_0 := 1$.
+
+  Clearly, $2 <= 1/n + 1$ for all $n>=n_0$, but $2!=bigO(1/n)$.
+
+  $qed$
+
+
+]
+#gb()[
+  *Old Proof 2.*
+
+  Let $c := 2$ and $n_0 :=1$. We can see that:
+
+  $ f(n) <= g(n)+ c <= g(n) + g(n) = c_2 g(n) $
+
+  for all $n>=n_0$, which would imply that $f(n) = bigO(g(n))$ (with constants $c, n_0$).
+
+
+
+
+
+]
+
+#gb()[
+
+  *Old Proof.*
+
   We want to show that there exists a $c_1, c_2,$ and $n_0$ such that for all $n >= n_0$:
-  
-  $ c_1 g(n) <= g(n) <= c_2 g(n) $
-  
+
+  $ c_1 g(n) <= f(n) <= c_2 g(n) $
+
   Let $c_1=1$, and $c_2$ be a positive integer. We choose an $n_0$ such that it satisfies $g(n_0) >=c_2 $. Thus:
-  
-  $ 
+
+  $
   1 dot g(n) <= g(n)+c <= g(n) + g(n) <=2 dot g(n)
   $
 
 
-  as desired. 
-  
+  as desired.
+
   $qed$
 ]
 
 === If $lim_(n->oo) f(n) = lim_(n->oo) g(n) = oo$ and $f(n)^a = cal(Theta)(g(n)^b)$, then $log f(n) = cal(Theta)(log g(n))$.
 
 #gb()[
-  *Proof.* 
+  *Proof.*
 
-  NOT DONE
+  By definition of $Theta$, there exists some $c_1$, $c_2$, and $n_0$:
 
-  NOT DONE
+  $ c_1 g(n)^b &<= f(n)^a <= c_2 g(n)^b $
 
-  NOT DONE
+  Let $c_3 := (b c_1)/a, c_4 := (b c_2)/a$ and $n_1 := max(n_0, 2)$. We show that
+  
+  $ c_3 log g(n) &<= log f(n) <= c_4 log g(n) $
+  
+  letting us conclude that $log f(n) = Theta(log g(n))$ (with $c_3, c_4,$ and $n_1$).
+  
+  From our inequality above, we can take the $log$ of each inequality:
+  $
+  c_1 g(n)^b <= &f(n)^a <= c_2 g(n)^b \ 
+  b c_1 log g(n) <= a log &f(n) <= b c_2 log g(n) \
+  ((b c_1) / a) log g(n) <= log &f(n) <= ((b c_2) / a) log g(n)
+
+  $
+
+  We have shown that the constants work as desired. 
+  
+  $qed$
 
 ]
 
 === If $f(n) = cal(Theta)(n^3)$, then $f(n) log f(n) = cal(Theta)(n^3 log n)$.
+#gb()[
+  *Proof.*
+
+  By definition of $Theta$, there exists $c_1, c_2, n_0$ such that for all $n >= n_0$:
+
+  $ c_1 n^3 &<= f(n)<= c_2 n^3 $
+
+  Choose $c_3 := 3 c_1, c_4 := 6 c_2,$ and $n_0 := (c_2)^(1/3) $. We'll show that
+
+  $ c_3 n^3 log n &<= f(n) log f(n) <= c_4 n^3 log n $
+
+  for all $n>=n_0$, which will imply that $ f(n) log f(n) = bigTh (n^3 log n)$.
+
+  Note that taking the $log$ of both sides of $f(n) &<= c_2 n^3$:
+
+  $
+  log f(n) &<= log (c_2 n^3) = log(c_2)+log(n^3) \
+  &<= 2 log(n^3) = 6 log (n)
+  $
+
+  Multiplying both sides by $f(n)$:
+  $
+  f(n) log f(n) &<= f(n) dot 6 log (n) \
+  &<= (6c_2) n^3 log (n) &
+  $
+
+  Meanwhile:
+
+  $
+    f(n) &>= c_1 n^3\
+    log f(n) &>= log(c_1) + log(n^3)  \
+    &>=  log(n^3) = 3 log n
+  $
+
+  Multiplying both sides by $f(n)$:
+
+  $
+    f(n) log f(n) >= f(n) 3 log n = (3 c_1)n^3 log n
+  $
+
+  $qed$
+]
+#gb()[
+  *Old Proof 2.*
+
+  Let $f$ be some function in $bigTh (n&^3)$. Then there exists $c_1, c_2, n_0$ such that for all $n >= n_0$:
+
+  $ c_1 n^3 &<= f(n)<= c_2 n^3 $
+
+  Choose $c_3 := 3 c_1, c_4 := 12 c_2,$ and $n_0 := (c_2)^(1/3) $. We'll show that
+
+  $ c_3 n^3 log n &<= f(n) log f(n) <= c_4 n^3 log n $
+
+  for all $n>=n_0$, which will imply that $ f(n) log f(n) = bigTh (n^3 log n)$.
+
+  Taking the $log$ of our given inequality, we see that:
+
+  $ log (c_1 n^3) &<= log f(n)<= log( c_2 n^3) \
+  (<==>) log c_1 + log n^3 &<= log f(n)<= log c_2 + log n^3 \
+  (<==>) log n^3 <= log c_1 + log n^3 &<= log f(n)<= log c_2 + log n^3 <= 2 log n^3 $
+
+  Implying:
+
+  $
+  3 log n = log n^3 &<= log f(n)<= 6 log n \
+  3 f(n) log n &<= f(n) log f(n)<= 6 f(n)log n \
+  (3 c_1 n^3) log n &<= f(n) log f(n)<= 6 dot (2 c_2 n^3) log n = (12 c_2) n^3 log n $.
+
+  $qed$
+]
 
 #gb()[
-  *Proof.* 
+  *Old Proof.*
 
   We want to prove that there exists some $c_3, c_4$ and $n_0$ such that for all $n >= n_0$:
 
@@ -424,7 +827,7 @@ $qed$
   Let $f$ be some function in $bigTh (n&^3)$. Then there exists $c_1, c_2, n_0$ such that for all $n >= n_0$:
 
   $ c_1 n^3 &<= f(n)<= c_2 n^3 $
-  
+
   We can let $c_3 := 3 c_1, c_4 := 12 c_2,$ and $n_0 := (c_2)^(1/3) $ and by definition, $ f(n) log f(n) = bigTh (n^3 log n)$.
 
   These constants are obtained through the following:
@@ -435,35 +838,26 @@ $qed$
 
   For clarity:
 
-  $ log n^3 &<= log f(n)<= 2 log n^3 \ 
+  $ log n^3  &<= log f(n)<= 2 log n^3 \
   3 log n &<= log f(n)<= 6 log n \
   3 f(n) log n &<= f(n) log f(n)<= 6 f(n)log n \
   (3 c_1 n^3) log n &<= f(n) log f(n)<= 6 dot (2 c_2 n^3) log n = 12 c_2 n^3 log n $
 
   $qed$
-
-
-
-
-
-  
-
-
-  
 ]
 
 === $f(n) g(n) = cal(O)(f(n)^2 + g(n)^2)$.
 
 #gb()[
-  *Proof.* 
+  *Proof.*
 
   We want to prove by definition of $bigO$.
 
   Let $c := 1/2$ and $n_0 := 1$.
 
-  Then: 
+  Then:
 
-  $ 
+  $
   f(n) g(n) &<= 1/2 (f(n)^2 + g(n)^2) \
   2 f(n) g(n) &<= f(n)^2 + g(n)^2 \
   f(n)^2 + g(n)^2 &>= 2 f(n) g(n) \
@@ -481,19 +875,19 @@ $qed$
 ]
 
 #gb()[
-  *Old Proof 1.* 
+  *Old Proof 1.*
 
   We want to prove by definition of $bigO$.
 
   Let $c := 1/2$ and $n_0 := 1$. Then
-  
-  
+
+
    $f(n) g(n) = cal(O)(f(n)^2 + g(n)^2)$.
 
   This constant was obtained using the trivial inequality:
 
   $ (f(n)-g(n))^2 &>= 0 \
-  f(n)^2 + g(n)^2 - 2 f(n)g(n) &>= 0 \ 
+  f(n)^2 + g(n)^2 - 2 f(n)g(n) &>= 0 \
   f(n)^2 + g(n)^2 &>= 2 f(n)g(n) \
   1/2 (f(n)^2 + g(n)^2) &>= f(n)g(n) \
   f(n)g(n) &<=   1/2 (f(n)^2 + g(n)^2) \
@@ -506,13 +900,13 @@ $qed$
 
 === $f(n) g(n) = cal(Omega)(f(n)^2 + g(n)^2)$.
 #gb()[
-  *Proof.* 
+  *Proof.*
 
   False. Let $f(n) = n$ and $g(n) = 1/n$. Then $f(n)g(n) = 1$ and $f(n)^2 + g(n)^2 = n^2 + 1/n^2 $
 
   We want to show this is not in $bigOm (f(n)^2 + g(n)^2)$. Which is true because no constant $c$ will satisfy:
 
-  $ 
+  $
   c (n^2 + 1/n^2) &<= 1 \
   $
 
@@ -522,12 +916,15 @@ $qed$
   $qed$
 
 
-  
+
 ]
 
 == _Prove or Disprove_: $sum_(k=n)^(2n) 1/k = Theta(1)$
+
+#image("image.png")
+
 #gb()[
-  *Proof.* 
+  *Proof.*
 
   We want to show there exists $c_1, c_2,$ and $n_0$ such that for all $n >= n_0$:
 
@@ -537,7 +934,7 @@ $qed$
 
   We obtained these constants from the following inequalities:
 
-  $ 
+  $
   1/(2n+2) &<= 1/(2n) \
   1/n &<= 2/(n+1) quad (n+1 <= 2n "at" n := n_0 >= 1)\
   $
@@ -546,8 +943,8 @@ $qed$
 
   $ 1/2 = (n+1)/(2n+2)= sum_(k=n)^(2n) 1/(2n+2) <= &sum_(k=n)^(2n) 1/k \
 
-  &sum_(k=n)^(2n) 1/k <= sum_(k=n)^(2n) 2/(n+1) <= (2(n+1))/(n+1) = 2 $  
+  &sum_(k=n)^(2n) 1/k <= sum_(k=n)^(2n) 2/(n+1) <= (2(n+1))/(n+1) = 2 $
 
   $qed$.
-  
+
 ]

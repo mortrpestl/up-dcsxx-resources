@@ -1,11 +1,13 @@
 
-#let boxed(body, width: 100%, inset: 12pt, fill: none, stroke: 0.5pt) = {
+#let boxed(body, centered: true, width: 100%, inset: 12pt, fill: none, stroke: 0.5pt) = {
   rect(width: width, inset: inset, fill: fill, stroke: stroke)[
-    #align(center)[#body]
-
+    #if centered [
+      #align(center)[#body]
+    ] else [
+      #body
+    ]
   ]
 }
-
 
 #let bigOm = $cal(Omega)$
 #let bigTh = $cal(Theta)$
@@ -19,7 +21,7 @@
 
 #set align(horizon)
 #align(center)[
-  = Template
+  = CS 30 Refresh
   *Diogn Lei R. Mortera*
 ]
 
@@ -39,10 +41,9 @@
 
 #pagebreak()
 
-
-== Question
+Translations:
 #gb()[
-  *Proof.*
-
-  ...
+Some A are B
+ 
+All A are B 
 ]
