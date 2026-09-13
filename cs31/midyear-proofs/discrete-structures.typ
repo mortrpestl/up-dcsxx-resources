@@ -74,11 +74,45 @@
 
   Note that $g$ is bijective because $f$ and $phi$ are bijective. We just need to verify $g$ is a derangement.
 
-  Assume it was not. Then for arbitrary functions $f_1$ and $f_2$:
 
+
+
+  Take any $b in S_1$. Since $f$ is sa bijection, $ b = f(a)$ for some unique $a in S_0$. Then
+
+  $ g(phi)(b) = f(phi(f^(-1)(b))) = f(phi(a)) $
+
+  Since $phi$ is a derangement of $a$, $phi(a)!= a$. Since f is injective, $f(phi(a))!=f(a)=b$. So $g(phi)(b)!=b$. As $b$ was arbitrary, $g(phi)$ is a derangement of $S_1$, hence $g(phi) in !S_1$.
 
   $qed$.
 
 ]
 
+#question[
+  Prove that for any sets $S_0$ and $S_1$ such that $S_0 approx S_1$ (even infinite!), $!S_0 approx !S_1$.
+]
+#proof("AI")[
+  Let $f : S_0 -> S_1$ be a bijection. Define $g : !S_0 -> !S_1$ by
+  $ g(phi) = f compose phi compose f^(-1). $
 
+  *$g$ is well-defined.* For $phi in !S_0$, $g(phi) = f compose phi compose f^(-1)$ is a composition of bijections $S_1 -> S_0 -> S_0 -> S_1$, hence itself a bijection (permutation) of $S_1$. We check it has no fixed points: take any $b in S_1$. Since $f$ is a bijection, $b = f(a)$ for some unique $a in S_0$. Then
+  $ g(phi)(b) = f(phi(f^(-1)(b))) = f(phi(a)). $
+  Since $phi in !S_0$ is a derangement of $S_0$, $phi(a) != a$. Since $f$ is injective, $f(phi(a)) != f(a) = b$. So $g(phi)(b) != b$. As $b$ was arbitrary, $g(phi)$ has no fixed points, i.e. $g(phi) in !S_1$.
+
+  *$g$ is injective.* Suppose $g(phi_1) = g(phi_2)$, i.e. $f compose phi_1 compose f^(-1) = f compose phi_2 compose f^(-1)$. Composing on the left by $f^(-1)$ and on the right by $f$ gives $phi_1 = phi_2$.
+
+  *$g$ is surjective.* Let $psi in !S_1$, and set $phi := f^(-1) compose psi compose f$. By the same well-definedness argument as above (with $f^(-1)$ in place of $f$), $phi in !S_0$. Then
+  $ g(phi) = f compose (f^(-1) compose psi compose f) compose f^(-1) = psi, $
+  using $f compose f^(-1) = "id"_(S_1)$ and $f^(-1) compose f = "id"_(S_0)$. So $psi$ has a preimage under $g$.
+
+  Hence $g$ is a bijection, so $!S_0 approx !S_1$.
+  $qed$
+]
+
+#pagebreak()
+
+#question[ 
+  
+]
+#proof[
+
+]

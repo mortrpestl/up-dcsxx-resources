@@ -153,11 +153,11 @@
 #gb[ 
   *Proof.* We claim that $sans("foo")(n)$ runs in $Theta(n^3)$ time. 
 
-  Note that the outer loop runs at most $n$ times. Either it does or it does not.
+  Note that the outer loop runs at most $n$ times.
   
   For the cases $i$ it does, it runs an inner loop $i^2$ times.
 
-  We can get the total number of operations using indirect counting. We remove the instances when the loop did not run:
+  We can get the total number of operations using indirect counting. We remove the instances when the loop did not run (insert explanation of why that is $sum_(i=1)^floor(n/d) (d i)^2$):
 
   $ sum_(i=1)^n i^2 - sum_(i=1)^floor(n/d) (d i)^2 = (n(n+1)(2n+1))/6 -  (d^2(floor(n/d))(floor(n/d) + 1)(2 floor(n/d) + 1))/6 $
 
@@ -268,7 +268,7 @@ $qed$.
 
     *Proof.* 
 
-    We remove the abuse notation of $Theta(1)$. From this, we know that there is some $g(n) = Theta(1)$ wherein there exists a $c, n_0$ such that for all $n >= n_0$, $g(n) <= c$. Hence:
+    We remove the abuse of notation of $Theta(1)$. From this, we know that there is some $g(n) = Theta(1)$ wherein there exists a $c, n_0$ such that for all $n >= n_0$, $g(n) <= c$. Hence:
 
     $ f(n) <= f(n-1) + c $
 

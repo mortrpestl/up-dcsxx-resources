@@ -257,7 +257,7 @@ For which $k in {1,2,3,4,5}$ is the following statement true? (And prove it!)
 
   This implies $n^3 = O(n^k)$ (with constants $c_2 / c_1, max(n_1,n_2)$), but $k<3$, a contradiction. Hence, $f(n) != O(n^k)$.
 
-
+  Hence, the only valid $k$ are thoes $>= 3$ ${3,4,5}$.
   $qed$
 
 ]
@@ -303,4 +303,23 @@ For which $k in {1,2,3,4,5}$ is the following statement true? (And prove it!)
 
 Here, we'd like to show that there are _many_ paths in a grid, by providing an asymptotic lower bound. Prove that there are $omega(b^(n^2))$ paths in an $n times n$ grid from $(0,0)$ to $(n-1,n-1)$ for some $b>1$.
 
+- idea:
+  - Fix $(0,0)$ and $(n-1,n-1)$ as starting and ending points, respectively. Then for every cell, it is either contained or not contained in a candidate path. By rule of product, we get $2^(n^2)$ [WRONG!]
 
+- idea 2:
+  - Note that it is possible to divide the grid into $2 times 2$ and $2 times 1$ boxes. 
+  - Take all the $2 times 2$ boxes. Since. Note that the topleft corner has $2$ choices (left or down). 
+  - Note that there are at most $n^2 / 4$ such boxes. Hence, 
+
+  $ 2^(n^2/4) = (2^(1/4 dot n^2) ) $
+
+- idea 3:
+  - make a snake like path 
+
+
+  
+
+
+#proof[ 
+
+]

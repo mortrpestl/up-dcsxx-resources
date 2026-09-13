@@ -230,16 +230,16 @@ We know that:
 
 $ lim_(n -> oo) (3/2)^n / n^64 = oo $
 
-Hence, for every $c>0$, there exists an $n_0$ where for all $n >= n_0$, $(3/2)^n / n^64 >= c$. For our purposes, let's pick a $c_0>0$ as $c$.
+Hence, for every $c>0$, there exists an $n_0$ where for all $n >= n_0$, $(3/2)^n / n^64 >= c$. For our purposes, let's pick $c_0:=1$ and its associated $n_0$ be $n_1$.
 
 Multiply both sides by $2^n n^32$:
 
-$ 3^n / n^32 &>= c dot 2^n n^32 \
+$ 3^n / n^32 &>= 1 dot 2^n n^32 \
 c dot 2^n n^32 &<= 3^n / n^32 \ 
-2^n n^32 &<= 1/c dot 3^n / n^32
+2^n n^32 &<=  3^n / n^32
 $
 
-Then, by definition, $2^n n^32 = bigO(3^n/n^32)$ (with constants $1/c ,n_0$)
+Then, by definition, $2^n n^32 = bigO(3^n/n^32)$ (with constants $1,n_1$)
 ]
 
 #pagebreak()
@@ -340,7 +340,7 @@ Formally _prove or disprove_ each of the following:
 
   Define $n_0 := max(n_1, n_2)$. Then for all $n$, $n >= n_0$, after multiplying the inequalities:
 
-  $ 0 < c_1 g(n) <= c_1 (c_2 h(n)) = (c_1 c_2) h(n) <= f(n) $
+  $ 0 < (c_1 c_2) h(n) = c_1 (c_2 h(n))<=c_1 g(n)  <= f(n) $
 
   Therefore, by definition, $f(n) = bigOm(h(n))$  (with constants $ c_1c_2, n_0)$.
 
@@ -734,10 +734,13 @@ $qed$
   From our inequality above, we can take the $log$ of each inequality:
   $
   c_1 g(n)^b <= &f(n)^a <= c_2 g(n)^b \ 
-  b c_1 log g(n) <= a log &f(n) <= b c_2 log g(n) \
+  b log  g(n)<= b log c_1 + b log g(n) <= a log &f(n) <= b c_2 log g(n) \
   ((b c_1) / a) log g(n) <= log &f(n) <= ((b c_2) / a) log g(n)
 
   $
+
+  NOTE: THIS IS KINDA VAGUE, BUT THE ONE I SUBMITTED IS NOT.
+
 
   We have shown that the constants work as desired. 
   
@@ -945,6 +948,8 @@ $qed$
 
   &sum_(k=n)^(2n) 1/k <= sum_(k=n)^(2n) 2/(n+1) <= (2(n+1))/(n+1) = 2 $
 
-  $qed$.
+  as required.
+
+  $qed$
 
 ]
